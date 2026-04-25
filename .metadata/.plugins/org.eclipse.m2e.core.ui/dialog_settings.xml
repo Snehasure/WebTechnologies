@@ -71,13 +71,14 @@
 	</section>
 	<section name="wizardPage">
 		<list key="groupId">
-			<item value="ShoppingCartApp"/>
 			<item value="com.bookstore"/>
+			<item value="ShoppingCartApp"/>
 			<item value="Wee-12"/>
 		</list>
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="Week-13"/>
 			<item value="ShoppingCartApp"/>
 			<item value="Week-12"/>
 			<item value="Wee-12"/>

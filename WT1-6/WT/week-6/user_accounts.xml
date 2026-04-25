@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Users>
+<User>
+<Username>ravi_sharma</Username>
+<Password>5f4dcc3b5aa765d61d8327deb882cf99</Password>
+<Email>ravi.sharma@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Wireless Mouse</Item>
+<Date>2025-01-15</Date>
+<Amount currency="INR">2499</Amount>
+</Purchase>
+<Purchase>
+<Item>Mechanical Keyboard</Item>
+<Date>2025-02-10</Date>
+<Amount currency="INR">6999</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>priya_verma</Username>
+<Password>e99a18c428cb38d5f260853678922e03</Password>
+<Email>priya.verma@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Laptop Stand</Item>
+<Date>2025-02-05</Date>
+<Amount currency="INR">2999</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>amit_kumar</Username>
+<Password>7c6a180b36896a0a8c02787eeafb0e4c</Password>
+<Email>amit.kumar@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Bluetooth Headphones</Item>
+<Date>2025-01-20</Date>
+<Amount currency="INR">4999</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>sneha_patil</Username>
+<Password>098f6bcd4621d373cade4e832627b4f6</Password>
+<Email>sneha.patil@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Smart Watch</Item>
+<Date>2025-02-12</Date>
+<Amount currency="INR">15999</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>rahul_mehta</Username>
+<Password>1f3870be274f6c49b3e31a0c6728957f</Password>
+<Email>rahul.mehta@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>External Hard Drive</Item>
+<Date>2025-02-18</Date>
+<Amount currency="INR">6499</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>ananya_sen</Username>
+<Password>c4ca4238a0b923820dcc509a6f75849b</Password>
+<Email>ananya.sen@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>USB-C Hub</Item>
+<Date>2025-01-30</Date>
+<Amount currency="INR">1999</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>vikram_iyer</Username>
+<Password>a87ff679a2f3e71d9181a67b7542122c</Password>
+<Email>vikram.iyer@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Gaming Mouse</Item>
+<Date>2025-02-07</Date>
+<Amount currency="INR">3999</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>kavita_mishra</Username>
+<Password>1679091c5a880faf6fb5e6087eb1b2dc</Password>
+<Email>kavita.mishra@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Portable Charger</Item>
+<Date>2025-02-14</Date>
+<Amount currency="INR">2499</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>arjun_rathore</Username>
+<Password>8f14e45fceea167a5a36dedd4bea2543</Password>
+<Email>arjun.rathore@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Noise Cancelling Earbuds</Item>
+<Date>2025-02-20</Date>
+<Amount currency="INR">7499</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+<User>
+<Username>radhika_nair</Username>
+<Password>e4da3b7fbbce2345d7772b0674a318d5</Password>
+<Email>radhika.nair@example.com</Email>
+<PurchaseHistory>
+<Purchase>
+<Item>Smartphone Case</Item>
+<Date>2025-02-21</Date>
+<Amount currency="INR">1499</Amount>
+</Purchase>
+</PurchaseHistory>
+</User>
+</Users>

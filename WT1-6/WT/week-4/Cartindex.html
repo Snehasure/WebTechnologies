@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Book Store</title>
+<link rel="stylesheet" href="style2.css" />
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+<header>
+<div class="nav">
+<a href="#" class="logo">
+<ion-icon name="book"></ion-icon> Book Store
+</a>
+<div class="box">
+<div class="cart-count">0</div>
+<ion-icon name="cart" id="cart-icon"></ion-icon>
+</div>
+<!-- Cart Sidebar -->
+<div class="cart">
+<ion-icon name="close" id="cart-close"></ion-icon>
+<div class="cart-title">Cart Items</div>
+<div class="cart-content">
+<!-- Cart items will be appended dynamically -->
+</div>
+<div class="total">
+<div class="total-title">Total</div>
+<div class="total-price">Rs.0</div>
+</div>
+<button class="btn-buy">Place Order</button>
+</div>
+</div>
+</header>
+<div class="container">
+<h2 class="title">Discover the Best Books</h2>
+<div class="shop-content">
+<!-- Each book card is now wrapped with an anchor tag linking to the details page -->
+<a href="bookdetails.html?book=HarryPotter" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="Harry Potter" class="food-img" />
+</div>
+<h2 class="food-title">Harry Potter and the Sorcerer’s Stone</h2>
+<span class="food-price">Rs.40</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+<a href="bookdetails.html?book=Mistborn" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="Mistborn" class="food-img" />
+</div>
+<h2 class="food-title">Mistborn The Final Empire</h2>
+<span class="food-price">Rs.65</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+<a href="bookdetails.html?book=TheHobbit" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="The Hobbit" class="food-img" />
+</div>
+<h2 class="food-title">The Hobbit</h2>
+<span class="food-price">Rs.80</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+<a href="bookdetails.html?book=LockeLamora" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="The Lies of Locke Lamora" class="food-img" />
+</div>
+<h2 class="food-title">The Lies of Locke Lamora</h2>
+<span class="food-price">Rs.55</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+<a href="bookdetails.html?book=NameOfTheWind" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="The Name of the Wind" class="food-img" />
+</div>
+<h2 class="food-title">The Name of the Wind</h2>
+<span class="food-price">Rs.25</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+<a href="bookdetails.html?book=Priory" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="The Priory of the Orange Tree" class="food-img" />
+</div>
+<h2 class="food-title">The Priory of the Orange Tree</h2>
+<span class="food-price">Rs.150</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+<a href="bookdetails.html?book=WayOfKings" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="The Way of Kings" class="food-img" />
+</div>
+<h2 class="food-title">The Way of Kings</h2>
+<span class="food-price">Rs.65</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+<a href="bookdetails.html?book=GoodOmens" class="food-box">
+<div class="pic">
+<img src="./assets/HarryPotter.jpg" alt="Good Omens" class="food-img" />
+</div>
+<h2 class="food-title">Good Omens</h2>
+<span class="food-price">Rs.65</span>
+<ion-icon name="cart" class="add-cart"></ion-icon>
+</a>
+</div>
+</div>
+<script src="Scriptcart.js"></script>
+</body>
+</html>

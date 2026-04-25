@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Catalog</title>
+</head>
+<body>
+
+<h2>Available Books</h2>
+
+<ul>
+<c:forEach items="${books}" var="book">
+    <li>
+        ${book.title} - ${book.author} - ₹${book.price}
+    </li>
+</c:forEach>
+</ul>
+
+<a href="welcome.jsp">Back to Home</a>
+
+</body>
+</html>

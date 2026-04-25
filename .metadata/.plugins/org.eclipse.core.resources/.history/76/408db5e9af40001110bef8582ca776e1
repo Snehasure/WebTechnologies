@@ -1,0 +1,18 @@
+
+</body>
+</html>a<!DOCTYPE html> 
+<html> 
+<head> 
+<title>Shopping Cart</title> 
+</head> 
+<body> 
+ 
+<h2>Products</h2> 
+ 
+<button onclick="addToCart('101')">Add Product 101</button> 
+<button onclick="addToCart('102')">Add Product 102</button> 
+<p id="status"></p> 
+<script src="js/script.js"></script> 
+</body> 
+</html> 
+ 

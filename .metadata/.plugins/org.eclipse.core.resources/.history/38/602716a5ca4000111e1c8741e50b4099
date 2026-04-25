@@ -1,0 +1,6 @@
+<form action="${pageContext.request.contextPath}/checkout" method="post">
+Name: <input type="text" name="name"><br>
+Address: <textarea name="address"></textarea><br>
+Phone: <input type="text" name="phone"><br>
+<button>Place Order</button>
+</form>

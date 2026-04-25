@@ -1,0 +1,101 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shopping Cart</title>
+<style>
+table { border-collapse: collapse; width: 80%; margin: 20px auto; } th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background-color: #f2f2f2; }
+.quantity-input { width: 50px; }
+.update-button, .remove-button { padding: 5px; cursor: pointer; }
+#cart-notification { position: fixed; top: 10px; right: 10px; background: #4CAF50; color: white; padding: 10px; display: none; }
+.total { font-weight: bold; margin: 20px; }
+</style>
+</head>
+<body>
+<h2>Shopping Cart</h2>
+<div id="cart-notification"></div>
+<table id="cart-table">
+<tr>
+<th>Title</th>
+<th>Author</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Subtotal</th>
+<th>Actions</th>
+</tr>
+<c:forEach items="${cart}" var="item">
+<tr data-book-id="${item.book.id}">
+<td>${item.book.title}</td>
+<td>${item.book.author}</td>
+<td>${item.book.price}</td>
+<td>
+<input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateCart(${item.book.id}, this.value)">
+</td>
+<td class="subtotal">${item.subtotal}</td>
+<td>
+<button class="remove-button" onclick="removeFromCart(${item.book.id})">Remove</button>
+</td>
+</tr>
+</c:forEach>
+</table>
+<div class="total" id="cart-total">
+Total: $<span id="total-amount"><c:out value="${cart.stream().map(item -> item.subtotal).reduce(BigDecimal.ZERO, BigDecimal::add)}"/></span>
+</div>
+<a href="BookManagementServlet">Continue Shopping</a>
+
+<script>
+function updateCart(bookId, quantity) { fetch('CartServlet', {
+method: 'POST',
+headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `action=update&bookId=${bookId}&quantity=${quantity}`
+})
+.then(response => response.json())
+.then(data => {
+if (data.error) {
+showNotification('Error: ' + data.error, 'red');
+} else {
+updateCartUI(data); showNotification('Cart updated!', 'green');
+}
+})
+.catch(error => showNotification('Error updating cart', 'red'));
+}
+function removeFromCart(bookId) { fetch('CartServlet', {
+method: 'POST',
+headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `action=remove&bookId=${bookId}`
+})
+.then(response => response.json())
+.then(data => {
+if (data.error) {
+showNotification('Error: ' + data.error, 'red');
+} else {
+updateCartUI(data);
+showNotification('Book removed from cart!', 'green');
+}
+})
+.catch(error => showNotification('Error removing from cart', 'red'));
+}
+function updateCartUI(data) {
+const table = document.getElementById('cart-table');
+// Clear existing rows except header while (table.rows.length > 1) {
+table.deleteRow(1);
+}
+// Add new rows
+data.cart.forEach(item => { const row = table.insertRow();
+row.setAttribute('data-book-id', item.bookId); row.insertCell(0).textContent = item.title; row.insertCell(1).textContent = item.author; row.insertCell(2).textContent = item.price; const quantityCell = row.insertCell(3);
+quantityCell.innerHTML = `<input type="number" class="quantity-input" value="${item.quantity}" min="1"
+onchange="updateCart(${item.bookId}, this.value)">`; row.insertCell(4).textContent = item.subtotal;
+const actionCell = row.insertCell(5); actionCell.innerHTML = `<button class="remove-button"
+onclick="removeFromCart(${item.bookId})">Remove</button>`;
+});
+// Update total
+document.getElementById('total-amount').textContent = data.total;
+}
+function showNotification(message, color) {
+const notification = document.getElementById('cart-notification'); notification.textContent = message;
+notification.style.backgroundColor = color === 'green' ? '#4CAF50' : '#f44336'; notification.style.display = 'block';
+setTimeout(() => notification.style.display = 'none', 3000);
+}
+</script>
+</body>
+</html>
+

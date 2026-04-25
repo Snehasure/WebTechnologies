@@ -1,0 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<html>
+<head>
+<title>Checkout</title>
+</head>
+<body>
+<h2>Checkout</h2>
+<form action="../checkout" method="post">
+Name: <input type="text" name="name" required><br><br> Address: <textarea name="address" required></textarea><br><br> Phone: <input type="text" name="phone" required><br><br>
+<input type="submit" value="Place Order">
+</form>
+</body>
+</html>

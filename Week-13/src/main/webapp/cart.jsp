@@ -1,0 +1,47 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List, com.bookstore.model.CartItem" %>
+
+<html>
+<head>
+<title>Cart</title>
+</head>
+
+<body>
+
+<h2>Cart</h2>
+
+<table border="1">
+<tr>
+<th>Name</th>
+<th>Price</th>
+<th>Qty</th>
+<th>Total</th>
+</tr>
+
+<%
+List<CartItem> cart = (List<CartItem>) request.getAttribute("cart");
+
+if(cart != null){
+    for(CartItem item : cart){
+%>
+
+<tr>
+<td><%= item.getName() %></td>
+<td><%= item.getPrice() %></td>
+<td><%= item.getQuantity() %></td>
+<td><%= item.getTotal() %></td>
+</tr>
+
+<%
+    }
+}
+%>
+
+</table>
+
+<h3>Total: ₹ <%= request.getAttribute("total") %></h3>
+
+<a href="checkout.jsp">Checkout</a>
+
+</body>
+</html>

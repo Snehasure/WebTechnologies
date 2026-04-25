@@ -1,0 +1,80 @@
+package com.bookstore.dao;
+
+import com.bookstore.entity.Book;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+
+import java.util.List;
+
+public class BookDAO {
+
+    private final SessionFactory sessionFactory;
+
+    // Constructor
+    public BookDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    // Create
+    public void createBook(Book book) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(book);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to create book", e);
+        }
+    }
+
+    // Read (single book by ID)
+    public Book getBook(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.find(Book.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to retrieve book with id: " + id, e);
+        }
+    }
+
+    // Read (all books)
+    public List<Book> getAllBooks() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Book> query = session.createQuery("FROM Book", Book.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to retrieve books", e);
+        }
+    }
+
+    // Update
+    public void updateBook(Book book) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(book);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to update book", e);
+        }
+    }
+
+    // Delete
+    public void deleteBook(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            Book book = session.find(Book.class, id);
+            if (book != null) {
+                session.remove(book);
+            }
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete book with id: " + id, e);
+        }
+    }
+}

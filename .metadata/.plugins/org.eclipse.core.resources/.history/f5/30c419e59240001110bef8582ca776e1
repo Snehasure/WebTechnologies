@@ -1,0 +1,62 @@
+package com.bookstore;
+import com.bookstore.dao.BookDAO; import com.bookstore.entity.Book; import com.bookstore.util.HibernateUtil; import jakarta.servlet.RequestDispatcher; import jakarta.servlet.ServletException; import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest; import jakarta.servlet.http.HttpServletResponse; import java.io.IOException;
+import java.math.BigDecimal;
+
+public class BookManagementServlet extends HttpServlet { private BookDAO bookDAO;
+@Override
+public void init() throws ServletException {
+bookDAO = new BookDAO(HibernateUtil.getSessionFactory());
+}
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+String action = request.getParameter("action"); if (action == null) {
+action = "list";
+}
+switch (action) { case "create":
+showCreateForm(request, response); break;
+case "edit":
+showEditForm(request, response); break;
+case "delete": deleteBook(request, response); break;
+case "list":
+default:
+listBooks(request, response); break;
+}
+}
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+String action = request.getParameter("action"); if ("create".equals(action)) {
+createBook(request, response);
+} else if ("update".equals(action)) { updateBook(request, response);
+}
+}
+private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+request.setAttribute("books", bookDAO.getAllBooks());
+RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/views/books.jsp"); dispatcher.forward(request, response);
+}
+private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/views/book- form.jsp");
+dispatcher.forward(request, response);
+}
+private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+Long id = Long.parseLong(request.getParameter("id")); Book book = bookDAO.getBook(id); request.setAttribute("book", book);
+RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/views/book- form.jsp");
+dispatcher.forward(request, response);
+}
+private void createBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+String title = request.getParameter("title"); String author = request.getParameter("author");
+BigDecimal price = new BigDecimal(request.getParameter("price")); String isbn = request.getParameter("isbn");
+Book book = new Book(title, author, price, isbn); bookDAO.createBook(book); response.sendRedirect("BookManagementServlet");
+}
+private void updateBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+Long id = Long.parseLong(request.getParameter("id")); String title = request.getParameter("title");
+String author = request.getParameter("author");
+BigDecimal price = new BigDecimal(request.getParameter("price")); String isbn = request.getParameter("isbn");
+
+Book book = new Book(title, author, price, isbn); book.setId(id);
+bookDAO.updateBook(book); response.sendRedirect("BookManagementServlet");
+}
+private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+Long id = Long.parseLong(request.getParameter("id")); bookDAO.deleteBook(id); response.sendRedirect("BookManagementServlet");
+}
+}

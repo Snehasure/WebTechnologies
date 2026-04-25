@@ -1,0 +1,34 @@
+package com.bookstore.controller;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import java.util.*;
+
+import com.bookstore.model.*;
+
+public class CheckoutServlet extends HttpServlet {
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
+
+        String name = req.getParameter("name");
+        String address = req.getParameter("address");
+        String phone = req.getParameter("phone");
+
+        HttpSession session = req.getSession();
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+
+        if (cart == null || cart.isEmpty()) {
+            res.sendRedirect("cart");
+            return;
+        }
+
+        OrderDAO dao = new OrderDAO();
+        dao.saveOrder(name, address, phone, cart);
+
+        session.removeAttribute("cart");
+
+        req.getRequestDispatcher("success.jsp").forward(req, res);
+    }
+}

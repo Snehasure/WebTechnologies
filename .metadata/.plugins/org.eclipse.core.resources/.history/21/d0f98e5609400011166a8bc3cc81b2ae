@@ -1,0 +1,6 @@
+<%@ page session="true" %>
+
+<h2>Welcome ${sessionScope.user}</h2>
+
+<a href="books">View Books</a><br><br>
+<a href="logout">Logout</a>

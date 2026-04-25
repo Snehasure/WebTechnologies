@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;controller.CheckOutServlet.java&apos; to &apos;CheckoutServlet.java&apos;&#x0D;&#x0A;- Original project: &apos;Week-13&apos;&#x0D;&#x0A;- Original element: &apos;controller.CheckOutServlet.java&apos;&#x0D;&#x0A;- Renamed element: &apos;controller.CheckoutServlet.java&apos;" description="Rename compilation unit &apos;CheckOutServlet.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src\/main\/java&lt;controller{CheckOutServlet.java" name="CheckoutServlet.java" references="false" stamp="1777127507844" version="1.0"/>
+</session>

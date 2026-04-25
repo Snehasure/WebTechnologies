@@ -1,0 +1,15 @@
+function addToCart(productId) { var xhr = new XMLHttpRequest(); xhr.open("POST", "cart", true); 
+xhr.setRequestHeader("Content-Type", 
+"application/x-www-form-urlencoded"); 
+ 
+xhr.onload = function () { if (xhr.status === 200) { 
+ 
+let data = xhr.responseText.split("\n"); let output = ""; 
+data.forEach(line => { if (line.trim() !== "") { output += "<p>" + line + "</p>"; } 
+}); 
+document.getElementById("status").innerHTML = output; 
+} 
+}; 
+ 
+xhr.send("productId=" + productId + "&quantity=1"); } 
+}

@@ -1,0 +1,31 @@
+<web-app version="4.0" xmlns="https://jakarta.ee/xml/ns/jakartaee">
+
+<servlet>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <servlet-class>com.bookstore.controller.AddToCartServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <url-pattern>/add-to-cart</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>CartServlet</servlet-name>
+    <servlet-class>com.bookstore.controller.CartServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>CartServlet</servlet-name>
+    <url-pattern>/cart</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>CheckoutServlet</servlet-name>
+    <servlet-class>com.bookstore.controller.CheckoutServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>CheckoutServlet</servlet-name>
+    <url-pattern>/checkout</url-pattern>
+</servlet-mapping>
+
+</web-app>

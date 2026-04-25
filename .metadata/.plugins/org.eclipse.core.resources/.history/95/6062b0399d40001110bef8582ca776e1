@@ -1,0 +1,156 @@
+package com.bookstore;
+
+import com.bookstore.dao.BookDAO;
+import com.bookstore.entity.Book;
+import com.bookstore.entity.CartItem;
+import com.bookstore.util.HibernateUtil;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class CartServlet extends HttpServlet {
+
+    private BookDAO bookDAO;
+
+    @Override
+    public void init() throws ServletException {
+        bookDAO = new BookDAO(HibernateUtil.getSessionFactory());
+    }
+
+    // VIEW CART
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
+    }
+
+    // ADD / UPDATE / REMOVE (AJAX)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String action = request.getParameter("action");
+
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        if ("add".equals(action)) {
+            addToCart(request, out);
+        } else if ("update".equals(action)) {
+            updateCart(request, out);
+        } else if ("remove".equals(action)) {
+            removeFromCart(request, out);
+        } else {
+            sendError(out, "Invalid action");
+        }
+    }
+
+    private void addToCart(HttpServletRequest request, PrintWriter out) {
+
+        Long bookId = Long.parseLong(request.getParameter("bookId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+        HttpSession session = request.getSession();
+        List<CartItem> cart = getCart(session);
+
+        Book book = bookDAO.getBook(bookId);
+
+        if (book == null) {
+            sendError(out, "Book not found");
+            return;
+        }
+
+        for (CartItem item : cart) {
+            if (item.getBook().getId().equals(bookId)) {
+                item.setQuantity(item.getQuantity() + quantity);
+                sendResponse(out, cart);
+                return;
+            }
+        }
+
+        cart.add(new CartItem(book, quantity));
+        sendResponse(out, cart);
+    }
+
+    private void updateCart(HttpServletRequest request, PrintWriter out) {
+
+        Long bookId = Long.parseLong(request.getParameter("bookId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+        HttpSession session = request.getSession();
+        List<CartItem> cart = getCart(session);
+
+        for (CartItem item : cart) {
+            if (item.getBook().getId().equals(bookId)) {
+                item.setQuantity(quantity);
+                break;
+            }
+        }
+
+        sendResponse(out, cart);
+    }
+
+    private void removeFromCart(HttpServletRequest request, PrintWriter out) {
+
+        Long bookId = Long.parseLong(request.getParameter("bookId"));
+
+        HttpSession session = request.getSession();
+        List<CartItem> cart = getCart(session);
+
+        cart.removeIf(item -> item.getBook().getId().equals(bookId));
+
+        sendResponse(out, cart);
+    }
+
+    private List<CartItem> getCart(HttpSession session) {
+
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+
+        if (cart == null) {
+            cart = new ArrayList<>();
+            session.setAttribute("cart", cart);
+        }
+
+        return cart;
+    }
+
+    private void sendResponse(PrintWriter out, List<CartItem> cart) {
+
+        JSONObject json = new JSONObject();
+        JSONArray items = new JSONArray();
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (CartItem item : cart) {
+            JSONObject obj = new JSONObject();
+            obj.put("title", item.getBook().getTitle());
+            obj.put("quantity", item.getQuantity());
+            obj.put("subtotal", item.getSubtotal());
+
+            items.put(obj);
+            total = total.add(item.getSubtotal());
+        }
+
+        json.put("cart", items);
+        json.put("total", total);
+
+        out.print(json.toString());
+        out.flush();
+    }
+
+    private void sendError(PrintWriter out, String msg) {
+        JSONObject json = new JSONObject();
+        json.put("error", msg);
+        out.print(json.toString());
+        out.flush();
+    }
+}

@@ -1,0 +1,102 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.math.BigDecimal, java.util.List, com.bookstore.entity.CartItem" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<html>
+<head>
+<title>Shopping Cart</title>
+
+<style>
+table { border-collapse: collapse; width: 80%; margin: 20px auto; }
+th, td { border: 1px solid #ddd; padding: 8px; }
+th { background: #f2f2f2; }
+</style>
+
+</head>
+
+<body>
+
+<h2 style="text-align:center;">Shopping Cart</h2>
+
+<table>
+<tr>
+<th>Title</th>
+<th>Author</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Subtotal</th>
+<th>Action</th>
+</tr>
+
+<c:forEach items="${sessionScope.cart}" var="item">
+<tr>
+<td>${item.book.title}</td>
+<td>${item.book.author}</td>
+<td>${item.book.price}</td>
+
+<td>
+<input type="number" value="${item.quantity}" min="1"
+onchange="updateCart(${item.book.id}, this.value)">
+</td>
+
+<td>${item.subtotal}</td>
+
+<td>
+<button onclick="removeFromCart(${item.book.id})">Remove</button>
+</td>
+</tr>
+</c:forEach>
+
+</table>
+
+<%
+List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+BigDecimal total = BigDecimal.ZERO;
+
+if (cart != null) {
+    for (CartItem item : cart) {
+        total = total.add(item.getSubtotal());
+    }
+}
+%>
+
+<h3 style="text-align:center;">
+Total: ₹ <span id="total"><%= total %></span>
+</h3>
+
+<div style="text-align:center;">
+<a href="BookManagementServlet">Continue Shopping</a>
+</div>
+
+<script>
+
+function updateCart(bookId, quantity) {
+
+    fetch('${pageContext.request.contextPath}/CartServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `action=update&bookId=${bookId}&quantity=${quantity}`
+    })
+    .then(res => res.json())
+    .then(data => location.reload());
+}
+
+function removeFromCart(bookId) {
+
+    fetch('${pageContext.request.contextPath}/CartServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `action=remove&bookId=${bookId}`
+    })
+    .then(res => res.json())
+    .then(data => location.reload());
+}
+
+</script>
+
+</body>
+</html>

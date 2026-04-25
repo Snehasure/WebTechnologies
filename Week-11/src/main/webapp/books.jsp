@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Catalog</title>
+<style>
+table { border-collapse: collapse; width: 80%; margin: 20px auto; } th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background-color: #f2f2f2; }
+.actions a { margin-right: 10px; }
+.add-button { display: block; width: 100px; margin: 20px auto; text-align: center; }
+</style>
+</head>
+<body>
+<h2>Book Catalog</h2>
+<a href="BookManagementServlet?action=create" class="add-button">Add New Book</a>
+<a href="CartServlet" class="add-button">View Cart</a> <!-- ✅ added -->
+
+<table>
+<tr>
+<th>Title</th>
+<th>Author</th>
+<th>Price</th>
+<th>ISBN</th>
+<th>Actions</th>
+</tr>
+<c:forEach items="${books}" var="book">
+<tr>
+<td>${book.title}</td>
+<td>${book.author}</td>
+<td>${book.price}</td>
+<td>${book.isbn}</td>
+<td class="actions">
+<a href="BookManagementServlet?action=edit&id=${book.id}">Edit</a>
+<a href="BookManagementServlet?action=delete&id=${book.id}"
+onclick="return confirm('Are you sure you want to delete this book?')">Delete</a>
+</td>
+<td>
+        <form action="CartServlet" method="post">
+            <input type="hidden" name="bookId" value="${book.id}" />
+            <input type="number" name="quantity" value="1" min="1" style="width:50px;" />
+            <input type="submit" value="Add to Cart" />
+        </form>
+    </td>
+</tr>
+</c:forEach>
+</table>
+<a href="welcome.jsp">Back to Home</a>
+</body>
+</html>

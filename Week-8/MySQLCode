@@ -1,0 +1,17 @@
+CREATE DATABASE books_db;
+
+USE books_db;
+
+CREATE TABLE books (
+id INT PRIMARY KEY AUTO_INCREMENT,
+title VARCHAR(100),
+author VARCHAR(100),
+price DOUBLE
+);
+
+INSERT INTO books (title, author, price) VALUES 
+('Java Programming', 'James Gosling', 500),
+('Python Basics', 'Guido van Rossum', 450),
+('Web Development', 'Tim Berners-Lee', 600);
+
+SELECT * FROM books;

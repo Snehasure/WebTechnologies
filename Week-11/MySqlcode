@@ -1,0 +1,11 @@
+USE bookstore;
+CREATE TABLE books (
+id BIGINT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(100) NOT NULL,
+author VARCHAR(100) NOT NULL,
+price DECIMAL(10, 2) NOT NULL,
+isbn VARCHAR(13) UNIQUE NOT NULL
+);
+INSERT INTO books (title, author, price, isbn) VALUES ('Java Programming', 'John Smith', 29.99, '1234567890123'),
+('Python Basics', 'Jane Doe', 24.99, '9876543210987');
+
+select * from books;

@@ -1,3 +1,15 @@
+## 📂 Repository Structure – Week-wise Experiments (As in GitHub)
+
+- Weeks 1–6 → **WT1-6**
+- Week 8 → **Week-8**
+- Week 9 → **Week-9**
+- Week 10 → **BookStore1**
+- Week 11 → **Week-11**
+- Week 12 → **ShoppingCartApp**
+- Week 13 → **Week-13**
+
+
+
 Installations
 Eclipse Installation:
 

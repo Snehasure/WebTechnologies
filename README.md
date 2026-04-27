@@ -17,7 +17,7 @@ Eclipse Installation:
 
 Open this link in your browser:
 
-👉 https://www.eclipse.org/downloads/
+👉 [https://www.eclipse.org/downloads/](https://www.eclipse.org/downloads/packages/release/2022-06/r/eclipse-ide-enterprise-java-and-web-developers)
 
 📥 ✅ Step 2: Download Eclipse Installer
 

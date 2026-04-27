@@ -266,6 +266,11 @@ apache-tomcat-10.1/
 ├── webapps    (deploy apps)
 ├── lib        (libraries)
 ├── logs       (logs)
+
+•	bin	→	Contains	startup	(startup.bat/startup.sh)	and	shutdown	scripts
+(shutdown.bat/shutdown.sh)
+
+
 💻 ✅ STEP 3: Open Eclipse
 
 👉 Open Eclipse IDE for Enterprise Java and Web Developers
@@ -319,8 +324,9 @@ Started, Synchronized
 🌐 STEP 9: Test in browser
 
 Open:
+To confirm that Tomcat is running, open a web browser and enter:
+   http://localhost:8080/
 
-http://localhost:8080/
 
 👉 You should see:
 ✔ Apache Tomcat welcome page

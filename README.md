@@ -111,118 +111,47 @@ Install it
 
 
 MYSQL installtion:
-✅ Step 1: Go to official MySQL site
+Download MySQL
 
-Open:
+Go to the official site: https://dev.mysql.com/downloads/installer/
 
-👉 https://dev.mysql.com/downloads/
-MySql server Community-----Install MSI installer
-📥 ✅ Step 2: Choose correct download
+Download MySQL Installer (Community Edition)
+2. Run the Installer
 
-Click:
+7
+Open the .msi file
+Choose setup type:
+Developer Default (recommended for beginners)
 
-👉 MySQL Installer for Windows
-
-You’ll see two options:
-
-✔ Recommended:
-mysql-installer-community (Full version)
-
-✔ Includes:
-
+Includes:
 MySQL Server
-MySQL Workbench
-All tools
-⬇️ Step 3: Download
+MySQL Workbench (GUI tool)
+3. Install Required Dependencies
 
-Click:
+Installer may ask to install:
 
-Download
+Visual C++ Redistributables
+Click Execute → wait till complete
 
-👉 If login asked:
-Click:
+4. Configure MySQL Server
+Choose:
+Standalone MySQL Server
+Configuration:
+Port: 3306 (default)
+Authentication: Use Strong Password Encryption
 
-No thanks, just start my download
-⚙️ ✅ Step 4: Run installer
-
+6. Set Root Password
+Set a password for root user
+⚠️ Don’t forget this — you’ll need it to log in
+7. Finish Installation
+Click Execute → Finish
+8. Verify Installation
 Open:
-
-mysql-installer-community-xxx.msi
-🔧 Step 5: Choose setup type
-
-Select:
-
-Developer Default   ✅ (IMPORTANT)
-
-✔ Installs:
-
-MySQL Server
 MySQL Workbench
-Connector
-📦 Step 6: Install components
-
-Click:
-
-Next → Execute
-
-👉 Wait until installation completes
-
-🔐 Step 7: Configure MySQL Server
-
-During setup:
-
-✔ Set password:
-root password → remember this!
-
-Example:
-
-root123
-✔ Port:
-3306 (default)
-👤 Step 8: Create user (optional)
-
-You can:
-
-Use root
 OR
-Create new user
-🚀 Step 9: Finish installation
-
-Click:
-
-Finish
-🖥️ ✅ Step 10: Open MySQL Workbench
-
-Search:
-
-MySQL Workbench
-
-Open it
-
-🔌 Step 11: Connect to database
-
-Click:
-
-+  (New Connection)
-
-Enter:
-
-Connection Name: Local MySQL
-Hostname: localhost
-Port: 3306
-Username: root
-Password: (your password)
-
-Click:
-
-Test Connection → OK
-🎉 DONE!
-
-Now you can:
-✔ Create database
-✔ Run SQL queries
-✔ Use with your Java project
-
+Command Prompt:
+mysql -u root -p
+Enter password → If it connects, you're done ✅
 🎯 Example for your project
 CREATE DATABASE bookstore;
 USE bookstore;

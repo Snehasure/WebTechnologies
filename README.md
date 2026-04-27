@@ -116,7 +116,7 @@ MYSQL installtion:
 Open:
 
 👉 https://dev.mysql.com/downloads/
-
+MySql server Community-----Install MSI installer
 📥 ✅ Step 2: Choose correct download
 
 Click:

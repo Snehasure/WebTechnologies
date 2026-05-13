@@ -763,3 +763,12 @@ web.xml
          version="5.0">
 
 </web-app>
+mysql code
+CREATE DATABASE userdb;
+USE userdb;
+CREATE TABLE employee(
+    name VARCHAR(50),
+    salary VARCHAR(50)
+);
+INSERT INTO employee VALUES('Rahul','50000');
+INSERT INTO employee VALUES('Sneha','60000');

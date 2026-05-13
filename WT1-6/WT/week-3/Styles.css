@@ -1,38 +1,118 @@
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: Arial, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
 }
-body {
-background-color: rgb(138, 202, 245); display: flex;
-justify-content: center; align-items: center; height: 100vh;
+
+body{
+    background-color:rgb(138,202,245);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
 }
-.container { background: white; padding: 20px; border-radius: 10px;
-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); text-align: center;
-width: 400px;
+
+.container{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    width:400px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
-h2 {
-margin-bottom: 20px; color: #043667;
+
+.container h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#043667;
 }
-form {
-display: flex;
-flex-direction: column;
+
+form{
+    display:flex;
+    flex-direction:column;
 }
-label {
-text-align: left; margin-bottom: 5px; font-weight: bold;
+
+label{
+    margin-bottom:5px;
+    font-weight:bold;
 }
-input {
-padding: 8px;
-margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;
+
+input{
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
 }
-button {
-background: #043667; color: white;
-border: none; padding: 10px; cursor: pointer; border-radius: 5px; margin-bottom: 20px;
+
+button{
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    background:#043667;
+    color:white;
+    cursor:pointer;
+    margin-top:10px;
 }
-button:hover { background: #03264d;
+
+button:hover{
+    background:#03264d;
 }
-.error {
-color: red;
-font-size: 0.8rem; margin-bottom: 10px;
+
+.error{
+    color:red;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.success{
+    color:green;
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+p{
+    margin-top:15px;
+    text-align:center;
+}
+
+a{
+    text-decoration:none;
+    color:blue;
+}
+
+
+/* Dynamic Content Loading */
+
+.book-container{
+    display:flex;
+    width:900px;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.navigation{
+    width:30%;
+    background:#043667;
+    color:white;
+    padding:20px;
+}
+
+.navigation h2{
+    margin-bottom:20px;
+}
+
+.navigation button{
+    width:100%;
+    margin-bottom:10px;
+    background:white;
+    color:#043667;
+    font-weight:bold;
+}
+
+.content{
+    width:70%;
+    padding:20px;
 }

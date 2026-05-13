@@ -265,6 +265,7 @@ To confirm that Tomcat is running, open a web browser and enter:
 Your Tomcat 10.1 is successfully configured
 
 CRUDServlet
+
 │
 ├── Java Resources
 │   │
@@ -301,6 +302,7 @@ CRUDServlet
             └── index.html
 
 index.html
+
 <!DOCTYPE html>
 
 <html>
@@ -458,6 +460,7 @@ value="delete">
 </html>
 
 Employee.java
+
 import java.io.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -763,6 +766,7 @@ web.xml
          version="5.0">
 
 </web-app>
+
 mysql code
 CREATE DATABASE userdb;
 USE userdb;
@@ -772,3 +776,420 @@ CREATE TABLE employee(
 );
 INSERT INTO employee VALUES('Rahul','50000');
 INSERT INTO employee VALUES('Sneha','60000');
+select * from employee;
+
+
+JSPCRUD operations
+
+CRUDJSP
+│
+├── Java Resources
+│   └── src/main/java
+         |__com
+            |__servlet
+               |__Employee.java
+│
+├── src
+│   └── main
+│       │
+│       ├── java
+│       │
+│       └── webapp
+│           │
+│           ├── META-INF
+│           │
+│           ├── WEB-INF
+│           │   │
+│           │   ├── lib
+│           │   │   ├── mysql-connector-j-9.x.x.jar
+│           │   │   ├── jakarta.servlet.jsp.jstl-api.jar
+│           │   │   └── jakarta.servlet.jsp.jstl.jar
+│           │   │
+│           │   └── web.xml
+│           │
+│           ├── index.jsp
+│           ├── create.jsp
+│           ├── read.jsp
+│           ├── update.jsp
+│           └── delete.jsp
+│
+├── build
+│
+└── Libraries
+
+
+Employee.java
+
+package com.servlet;
+import java.io.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.sql.*;
+
+public class Employee {
+
+    private String name;
+    private String salary;
+
+    public Employee() {
+    }
+
+    public Employee(String name, String salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
+    }
+}
+
+web.xml
+
+<web-app>
+    <servlet>
+        <servlet-name>Employee</servlet-name>
+        <servlet-class>Employee</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Employee</servlet-name>
+        <url-pattern>/Employee/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Employee</servlet-name>
+        <url-pattern>/Employee</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
+
+create.jsp
+<%@ page import="java.sql.*" %>
+
+<%
+    String username = request.getParameter("username");
+    String salary = request.getParameter("salary");
+
+    try {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection con =
+        DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/userdb",
+        "root",
+        "Sneh@sure2005");
+
+        String checkQuery =
+        "SELECT * FROM employee WHERE name = ?";
+
+        PreparedStatement checkPst =
+        con.prepareStatement(checkQuery);
+
+        checkPst.setString(1, username);
+
+        ResultSet checkRs = checkPst.executeQuery();
+
+        if (checkRs.next()) {
+
+            out.println("Employee already exists");
+
+        } else {
+
+            String insertQuery =
+            "INSERT INTO employee (name, salary) VALUES (?, ?)";
+
+            PreparedStatement pst =
+            con.prepareStatement(insertQuery);
+
+            pst.setString(1, username);
+            pst.setString(2, salary);
+
+            int rows = pst.executeUpdate();
+
+            if (rows > 0) {
+                out.println("Employee created successfully");
+            } else {
+                out.println("Error creating employee");
+            }
+        }
+
+        con.close();
+
+    } catch (Exception e) {
+        e.printStackTrace(new java.io.PrintWriter(out));
+    }
+%>
+
+delete.jsp
+<%@ page import="java.sql.*" %>
+
+<%
+    String username = request.getParameter("username");
+
+    try {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection con =
+        DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/userdb",
+        "root",
+        "Sneh@sure2005");
+
+        String deleteQuery =
+        "DELETE FROM employee WHERE name = ?";
+
+        PreparedStatement pst =
+        con.prepareStatement(deleteQuery);
+
+        pst.setString(1, username);
+
+        int rows = pst.executeUpdate();
+
+        if (rows > 0) {
+
+            out.println("Employee deleted successfully");
+
+        } else {
+
+            out.println("Error deleting employee");
+
+        }
+
+        con.close();
+
+    } catch (Exception e) {
+
+        e.printStackTrace(new java.io.PrintWriter(out));
+
+    }
+%>
+
+index.jsp
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Management</title>
+</head>
+<body>
+
+<center>
+
+    <h3>Employee Management Page</h3>
+
+    <!-- CREATE -->
+
+    <form name="create" method="post" action="create.jsp">
+
+        <h4>Create Employee</h4>
+
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username"></td>
+            </tr>
+
+            <tr>
+                <td>Salary:</td>
+                <td><input type="text" name="salary"></td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Create">
+
+    </form>
+
+    <br/>
+
+    <!-- READ -->
+
+    <form name="read" method="get" action="read.jsp">
+
+        <h4>Read Employee</h4>
+
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username"></td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Read">
+
+    </form>
+
+    <br/>
+
+    <!-- UPDATE -->
+
+    <form name="update" method="post" action="update.jsp"
+          onsubmit="return confirm('Are you sure you want to update?')">
+
+        <h4>Update Employee</h4>
+
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username"></td>
+            </tr>
+
+            <tr>
+                <td>Salary:</td>
+                <td><input type="text" name="salary"></td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Update">
+
+    </form>
+
+    <br/>
+
+    <!-- DELETE -->
+
+    <form name="delete" method="post" action="delete.jsp"
+          onsubmit="return confirm('Are you sure you want to delete?')">
+
+        <h4>Delete Employee</h4>
+
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username"></td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Delete">
+
+    </form>
+
+</center>
+
+</body>
+</html>
+
+read.jsp
+<%@ page import="java.sql.*" %>
+
+<%
+    String username = request.getParameter("username");
+
+    try {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection con =
+        DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/userdb",
+        "root",
+        "Sneh@sure2005");
+
+        String query =
+        "SELECT * FROM employee WHERE name=?";
+
+        PreparedStatement pst =
+        con.prepareStatement(query);
+
+        pst.setString(1, username);
+
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()) {
+
+            out.println("<h3>Employee Found</h3>");
+            out.println("Name: " + rs.getString("name"));
+            out.println("<br>");
+            out.println("Salary: " + rs.getString("salary"));
+
+        } else {
+
+            out.println("Employee not found");
+
+        }
+
+        con.close();
+
+    } catch(Exception e) {
+
+        e.printStackTrace(new java.io.PrintWriter(out));
+
+    }
+%>
+
+update.jsp
+
+<%@ page import="java.sql.*" %>
+
+<%
+    String username = request.getParameter("username");
+    String salary = request.getParameter("salary");
+
+    try {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection con =
+        DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/userdb",
+        "root",
+        "Sneh@sure2005");
+
+        String updateQuery =
+        "UPDATE employee SET salary = ? WHERE name = ?";
+
+        PreparedStatement pst =
+        con.prepareStatement(updateQuery);
+
+        pst.setString(1, salary);
+        pst.setString(2, username);
+
+        int rows = pst.executeUpdate();
+
+        if (rows > 0) {
+
+            out.println("Employee updated successfully");
+
+        } else {
+
+            out.println("Error updating employee");
+
+        }
+
+        con.close();
+
+    } catch (Exception e) {
+
+        e.printStackTrace(new java.io.PrintWriter(out));
+
+    }
+%>
+
+mysql code
+
+CREATE DATABASE userdb;
+USE userdb;
+CREATE TABLE employee(
+    name VARCHAR(50),
+    salary VARCHAR(50)
+);
+INSERT INTO employee VALUES('Rahul','50000');
+INSERT INTO employee VALUES('Sneha','60000');
+select * from employee;
+

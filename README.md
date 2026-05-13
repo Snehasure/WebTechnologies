@@ -263,3 +263,503 @@ To confirm that Tomcat is running, open a web browser and enter:
 🎉 DONE!
 
 Your Tomcat 10.1 is successfully configured
+
+CRUDServlet
+│
+├── Java Resources
+│   │
+│   └── src/main/java
+│       │
+│       └── com.servlet
+│           │
+│           └── Employee.java
+│
+├── Libraries
+│
+├── build
+│
+└── src
+    │
+    └── main
+        │
+        ├── java
+        │
+        └── webapp
+            │
+            ├── META-INF
+            │
+            ├── WEB-INF
+            │   │
+            │   ├── lib
+            │   │   │
+            │   │   ├── jakarta.servlet.jsp.jstl-2.0.0.jar
+            │   │   ├── jakarta.servlet.jsp.jstl-api-2.0.0.jar
+            │   │   └── mysql-connector-j-9.1.0.jar
+            │   │
+            │   └── web.xml
+            │
+            └── index.html
+
+index.html
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Employee CRUD Operations</title>
+</head>
+
+<body>
+
+<center>
+
+<h1>Employee CRUD Operations Using Servlet</h1>
+
+<!-- CREATE OPERATION -->
+
+<form method="post"
+action="http://localhost:8080/CRUDServlet/Employee">
+
+<h2>Create Employee</h2>
+
+<table border="1" cellpadding="10">
+
+<tr>
+<td>Username</td>
+<td>
+<input type="text" name="username">
+</td>
+</tr>
+
+<tr>
+<td>Salary</td>
+<td>
+<input type="text" name="salary">
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="Create Employee">
+</td>
+</tr>
+
+</table>
+
+</form>
+
+<br><br>
+
+<!-- READ OPERATION -->
+
+<form method="get"
+action="http://localhost:8080/CRUDServlet/Employee">
+
+<h2>Read Employee</h2>
+
+<table border="1" cellpadding="10">
+
+<tr>
+<td>Username</td>
+
+<td>
+<input type="text" name="username">
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="Read Employee">
+</td>
+</tr>
+
+</table>
+
+</form>
+
+<br><br>
+
+<!-- UPDATE OPERATION -->
+
+<form method="post"
+action="http://localhost:8080/CRUDServlet/Employee">
+
+<input type="hidden"
+name="_method"
+value="put">
+
+<h2>Update Employee</h2>
+
+<table border="1" cellpadding="10">
+
+<tr>
+<td>Username</td>
+
+<td>
+<input type="text" name="username">
+</td>
+</tr>
+
+<tr>
+<td>New Salary</td>
+
+<td>
+<input type="text" name="salary">
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="Update Employee">
+</td>
+</tr>
+
+</table>
+
+</form>
+
+<br><br>
+
+<!-- DELETE OPERATION -->
+
+<form method="post"
+action="http://localhost:8080/CRUDServlet/Employee">
+
+<input type="hidden"
+name="_method"
+value="delete">
+
+<h2>Delete Employee</h2>
+
+<table border="1" cellpadding="10">
+
+<tr>
+<td>Username</td>
+
+<td>
+<input type="text" name="username">
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="Delete Employee">
+</td>
+</tr>
+
+</table>
+
+</form>
+
+</center>
+
+</body>
+
+</html>
+
+Employee.java
+import java.io.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.sql.*;
+@WebServlet("/Employee")
+
+public class Employee extends HttpServlet {
+
+    // READ OPERATION
+
+    public void doGet(HttpServletRequest req,
+                      HttpServletResponse res)
+                      throws IOException {
+
+        res.setContentType("text/html");
+
+        PrintWriter out = res.getWriter();
+
+        String username = req.getParameter("username");
+
+        try {
+
+            // LOAD DRIVER
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // CREATE CONNECTION
+
+            Connection con =
+            DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/userdb",
+            "root",
+            "Sneh@sure2005");
+
+            // SQL QUERY
+
+            String query =
+            "SELECT salary FROM employee WHERE name=?";
+
+            PreparedStatement pst =
+            con.prepareStatement(query);
+
+            pst.setString(1, username);
+
+            ResultSet rs = pst.executeQuery();
+
+            out.println("<html><body>");
+
+            if(rs.next()) {
+
+                out.println("<h2>Employee Found</h2>");
+
+                out.println("<h3>Username : "
+                + username + "</h3>");
+
+                out.println("<h3>Salary : "
+                + rs.getString(1) + "</h3>");
+
+            }
+
+            else {
+
+                out.println("<h2>Employee Not Found</h2>");
+            }
+
+            out.println("</body></html>");
+
+            con.close();
+
+        }
+
+        catch(Exception e) {
+
+            out.println(e);
+        }
+    }
+
+    // CREATE OPERATION
+
+    public void doPost(HttpServletRequest req,
+                       HttpServletResponse res)
+                       throws IOException {
+
+        String method = req.getParameter("_method");
+
+        // UPDATE CALL
+
+        if("put".equalsIgnoreCase(method)) {
+
+            doPut(req,res);
+            return;
+        }
+
+        // DELETE CALL
+
+        if("delete".equalsIgnoreCase(method)) {
+
+            doDelete(req,res);
+            return;
+        }
+
+        res.setContentType("text/html");
+
+        PrintWriter out = res.getWriter();
+
+        String username =
+        req.getParameter("username");
+
+        String salary =
+        req.getParameter("salary");
+
+        try {
+
+            // LOAD DRIVER
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // CONNECTION
+
+            Connection con =
+            DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/userdb",
+            "root",
+            "Sneh@sure2005");
+
+            // INSERT QUERY
+
+            String query =
+            "INSERT INTO employee VALUES(?,?)";
+
+            PreparedStatement pst =
+            con.prepareStatement(query);
+
+            pst.setString(1, username);
+
+            pst.setString(2, salary);
+
+            int rows = pst.executeUpdate();
+
+            out.println("<html><body>");
+
+            if(rows > 0) {
+
+                out.println("<h2>Employee Created Successfully</h2>");
+            }
+
+            else {
+
+                out.println("<h2>Employee Creation Failed</h2>");
+            }
+
+            out.println("</body></html>");
+
+            con.close();
+
+        }
+
+        catch(Exception e) {
+
+            out.println(e);
+        }
+    }
+
+    // UPDATE OPERATION
+
+    public void doPut(HttpServletRequest req,
+                      HttpServletResponse res)
+                      throws IOException {
+
+        res.setContentType("text/html");
+
+        PrintWriter out = res.getWriter();
+
+        String username =
+        req.getParameter("username");
+
+        String salary =
+        req.getParameter("salary");
+
+        try {
+
+            // LOAD DRIVER
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // CONNECTION
+
+            Connection con =
+            DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/userdb",
+            "root",
+            "Sneh@sure2005");
+
+            // UPDATE QUERY
+
+            String query =
+            "UPDATE employee SET salary=? WHERE name=?";
+
+            PreparedStatement pst =
+            con.prepareStatement(query);
+
+            pst.setString(1, salary);
+
+            pst.setString(2, username);
+
+            int rows = pst.executeUpdate();
+
+            out.println("<html><body>");
+
+            if(rows > 0) {
+
+                out.println("<h2>Employee Updated Successfully</h2>");
+            }
+
+            else {
+
+                out.println("<h2>Employee Update Failed</h2>");
+            }
+
+            out.println("</body></html>");
+
+            con.close();
+
+        }
+
+        catch(Exception e) {
+
+            out.println(e);
+        }
+    }
+
+    // DELETE OPERATION
+
+    public void doDelete(HttpServletRequest req,
+                         HttpServletResponse res)
+                         throws IOException {
+
+        res.setContentType("text/html");
+
+        PrintWriter out = res.getWriter();
+
+        String username =
+        req.getParameter("username");
+
+        try {
+
+            // LOAD DRIVER
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // CONNECTION
+
+            Connection con =
+            DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/userdb",
+            "root",
+            "Sneh@sure2005");
+
+            // DELETE QUERY
+
+            String query =
+            "DELETE FROM employee WHERE name=?";
+
+            PreparedStatement pst =
+            con.prepareStatement(query);
+
+            pst.setString(1, username);
+
+            int rows = pst.executeUpdate();
+
+            out.println("<html><body>");
+
+            if(rows > 0) {
+
+                out.println("<h2>Employee Deleted Successfully</h2>");
+            }
+
+            else {
+
+                out.println("<h2>Employee Delete Failed</h2>");
+            }
+
+            out.println("</body></html>");
+
+            con.close();
+
+        }
+
+        catch(Exception e) {
+
+            out.println(e);
+        }
+    }
+}
+
+web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+</web-app>

@@ -6,7 +6,7 @@
 </servlet>
 <servlet-mapping>
     <servlet-name>AddToCartServlet</servlet-name>
-    <url-pattern>/add-to-cart</url-pattern>
+    <url-pattern>/addtocart</url-pattern>
 </servlet-mapping>
 
 <servlet>
